@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportZone - Premium Sports Products</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #2c3e50;
+            --accent-color: #f39c12;
+            --text-dark: #2c3e50;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .product-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            height: 250px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #999;
+            overflow: hidden; /* Ensure image fits */
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the area, cropping if necessary */
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,53,0.4);
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px 0;
+            margin-top: 80px;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .payment-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover, .payment-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(255,107,53,0.1);
+        }
+
+        .upi-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .product-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-dumbbell"></i> SportZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cart-icon" href="#" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartCount">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">Premium Sports Equipment</h1>
+            <p class="lead mb-4">Elevate your game with our professional-grade sports products</p>
+            <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="products" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Products</h2>
+            
+            <div class="search-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="priceFilter" onchange="filterProducts()">
+                            <option value="">All Price Ranges</option>
+                            <option value="0-2000">Under ₹2,000</option>
+                            <option value="2000-5000">₹2,000 - ₹5,000</option>
+                            <option value="5000-10000">₹5,000 - ₹10,000</option>
+                            <option value="10000+">Above ₹10,000</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-filter justify-content-center">
+                <div class="category-btn active" onclick="filterByCategory('all')">All</div>
+                <div class="category-btn" onclick="filterByCategory('cricket')">Cricket</div>
+                <div class="category-btn" onclick="filterByCategory('football')">Football</div>
+                <div class="category-btn" onclick="filterByCategory('basketball')">Basketball</div>
+                <div class="category-btn" onclick="filterByCategory('fitness')">Fitness</div>
+                <div class="category-btn" onclick="filterByCategory('badminton')">Badminton</div>
+                <div class="category-btn" onclick="filterByCategory('tennis')">Tennis</div>
+                <div class="category-btn" onclick="filterByCategory('swimming')">Swimming</div>
+                <div class="category-btn" onclick="filterByCategory('cycling')">Cycling</div>
+                <div class="category-btn" onclick="filterByCategory('golf')">Golf</div>
+            </div>
+
+            <div class="row" id="productsGrid">
+                </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">About SportZone</h2>
+                    <p class="lead">SportZone is India's premier destination for high-quality sports equipment and accessories. We provide authentic products from top brands at competitive prices, ensuring every athlete gets the gear they need to excel.</p>
+                    <div class="row mt-5">
+                        <div class="col-md-4">
+                            <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                            <h5>Fast Delivery</h5>
+                            <p>Quick delivery across India</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                            <h5>Authentic Products</h5>
+                            <p>100% genuine products</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                            <h5>24/7 Support</h5>
+                            <p>Round-the-clock assistance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-dumbbell"></i> SportZone</h5>
+                    <p>Your trusted partner in sports excellence. Quality equipment for champions.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-light">Home</a></li>
+                        <li><a href="#products" class="text-light">Products</a></li>
+                        <li><a href="#about" class="text-light">About</a></li>
+                        <li><a href="#" class="text-light">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 SportZone. All rights reserved. | Developed by Team: R Azhagu Pandian, P Rohith Ramakrishnan, T Subaselvan, Vetriselvan S</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Shopping Cart</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div id="cartTotal" class="text-end mt-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="checkoutModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Checkout</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="checkoutForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Shipping Information</h6>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Full Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" placeholder="Email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="tel" class="form-control" placeholder="Phone Number" required>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" placeholder="Address" rows="3" required></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="City" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="PIN Code" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Payment Method</h6>
+                                <div class="payment-option" onclick="selectPayment('upi')">
+                                    <i class="fas fa-mobile-alt"></i> UPI Payment
+                                </div>
+                                <div class="payment-option" onclick="selectPayment('card')">
+                                    <i class="fas fa-credit-card"></i> Credit/Debit Card
+                                </div>
+                                <div class="payment-option" onclick="selectPayment('cod')">
+                                    <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+                                </div>
+                                
+                                <div id="upiSection" class="upi-section" style="display: none;">
+                                    <h6>UPI Payment</h6>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Enter UPI ID (e.g., user@paytm)" id="upiId">
+                                    </div>
+                                    <div class="popular-upi">
+                                        <p>Popular UPI Apps:</p>
+                                        <button type="button" class="btn btn-outline-primary btn-sm me-2" onclick="setUPI('paytm')">Paytm</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm me-2" onclick="setUPI('gpay')">Google Pay</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm me-2" onclick="setUPI('phonepe')">PhonePe</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="setUPI('bhim')">BHIM</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div id="orderSummary"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="placeOrder()">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Product Data
+        const products = [
+            {
+                id: 1, name: "Professional Cricket Bat", category: "cricket", price: 3500, originalPrice: 4500, 
+                discount: "22% OFF", image: "bat.jpg", description: "Premium willow cricket bat for professionals"
+            },
+            {
+                id: 2, name: "Cricket Ball Set (6 balls)", category: "cricket", price: 850, originalPrice: 1200, 
+                discount: "29% OFF", image: "ball.jpg", description: "Official leather cricket balls"
+            },
+            {
+                id: 3, name: "Football Boot Adidas", category: "football", price: 4200, originalPrice: 5500, 
+                discount: "24% OFF", image: "shoe.jpg", description: "Professional football boots with studs"
+            },
+            {
+                id: 4, name: "FIFA Official Football", category: "football", price: 1800, originalPrice: 2300, 
+                discount: "22% OFF", image: "fifa.jpg", description: "Official FIFA approved football"
+            },
+            {
+                id: 5, name: "Basketball Nike Premium", category: "basketball", price: 2800, originalPrice: 3500, 
+                discount: "20% OFF", image: "nike.jpg", description: "Premium basketball with excellent grip"
+            },
+            {
+                id: 6, name: "Basketball Hoop Set", category: "basketball", price: 12500, originalPrice: 15000, 
+                discount: "17% OFF", image: "hoop.jpg", description: "Adjustable basketball hoop with backboard"
+            },
+            {
+                id: 7, name: "Gym Dumbbell Set 20kg", category: "fitness", price: 4500, originalPrice: 6000, 
+                discount: "25% OFF", image: "gym.jpg", description: "Adjustable dumbbell set for home gym"
+            },
+            {
+                id: 8, name: "Treadmill Electric", category: "fitness", price: 25000, originalPrice: 30000, 
+                discount: "17% OFF", image: "tread.jpg", description: "Electric treadmill with digital display"
+            },
+            {
+                id: 9, name: "Yoga Mat Premium", category: "fitness", price: 1200, originalPrice: 1800, 
+                discount: "33% OFF", image: "mat.jpg", description: "Non-slip yoga mat with carrying bag"
+            },
+            {
+                id: 10, name: "Badminton Racket Yonex", category: "badminton", price: 3200, originalPrice: 4000, 
+                discount: "20% OFF", image: "rocket.jpg", description: "Professional badminton racket"
+            },
+            {
+                id: 11, name: "Shuttlecock Set (12 pieces)", category: "badminton", price: 650, originalPrice: 900, 
+                discount: "28% OFF", image: "shuttlecock.jpg", description: "Feather shuttlecocks for tournaments"
+            },
+            {
+                id: 12, name: "Tennis Racket Wilson", category: "tennis", price: 4800, originalPrice: 6200, 
+                discount: "23% OFF", image: "tennis.jpg", description: "Professional tennis racket with cover"
+            },
+            {
+                id: 13, name: "Tennis Ball Set (6 balls)", category: "tennis", price: 450, originalPrice: 600, 
+                discount: "25% OFF", image: "tennis ball.jpg", description: "ITF approved tennis balls"
+            },
+            {
+                id: 14, name: "Cricket Helmet MRF", category: "cricket", price: 2800, originalPrice: 3500, 
+                discount: "20% OFF", image: "helmet.jpg", description: "Lightweight cricket helmet with grill"
+            },
+            {
+                id: 15, name: "Football Jersey India", category: "football", price: 1200, originalPrice: 1800, 
+                discount: "33% OFF", image: "fb jersy.jpg", description: "Official India football team jersey"
+            },
+            {
+                id: 16, name: "Boxing Gloves Everlast", category: "fitness", price: 2200, originalPrice: 2800, 
+                discount: "21% OFF", image: "boxing glove.jpg", description: "Professional boxing gloves 12oz"
+            },
+            {
+                id: 17, name: "Swimming Goggles Speedo", category: "swimming", price: 800, originalPrice: 1200, 
+                discount: "33% OFF", image: "swimming goggles.jpg", description: "Anti-fog swimming goggles"
+            },
+            {
+                id: 18, name: "Badminton Net Professional", category: "badminton", price: 1500, originalPrice: 2000, 
+                discount: "25% OFF", image: "net.jpg", description: "Tournament standard badminton net"
+            },
+            {
+                id: 19, name: "Table Tennis Paddle Set", category: "fitness", price: 1800, originalPrice: 2400, 
+                discount: "25% OFF", image: "paddle set.jpg", description: "Professional table tennis paddle set"
+            },
+            {
+                id: 20, name: "Cricket Gloves Leather", category: "cricket", price: 1600, originalPrice: 2200, 
+                discount: "27% OFF", image: "gloves.jpg", description: "Premium leather cricket batting gloves"
+            },
+            {
+                id: 21, name: "Bicycle Mountain Bike", category: "cycling", price: 18000, originalPrice: 22000,
+                discount: "18% OFF", image: "cycle.jpg", description: "Durable mountain bike for off-road trails"
+            },
+            {
+                id: 22, name: "Cycling Helmet Road", category: "cycling", price: 2500, originalPrice: 3200,
+                discount: "22% OFF", image: "cycle helmet.jpg", description: "Aerodynamic and lightweight road cycling helmet"
+            },
+            {
+                id: 23, name: "Swimming Cap Silicone", category: "swimming", price: 300, originalPrice: 450,
+                discount: "33% OFF", image: "swimming cap.jpg", description: "Comfortable and durable silicone swimming cap"
+            },
+            {
+                id: 24, name: "Kickboard Training Aid", category: "swimming", price: 700, originalPrice: 950,
+                discount: "26% OFF", image: "aidd.jpg", description: "Ergonomic kickboard for swim training"
+            },
+            {
+                id: 25, name: "Golf Club Set Complete", category: "golf", price: 35000, originalPrice: 42000,
+                discount: "17% OFF", image: "golf.jpg", description: "Full set of premium golf clubs for all skill levels"
+            },
+            {
+                id: 26, name: "Golf Balls Pro V1 (12-pack)", category: "golf", price: 4000, originalPrice: 5000,
+                discount: "20% OFF", image: "golf balls.jpg", description: "High-performance golf balls for maximum distance and control"
+            },
+            {
+                id: 27, name: "Football Shin Guards", category: "football", price: 900, originalPrice: 1300,
+                discount: "31% OFF", image: "football shin guard.jpg", description: "Lightweight and protective shin guards for football"
+            },
+            {
+                id: 28, name: "Tennis Grips (3-pack)", category: "tennis", price: 600, originalPrice: 850,
+                discount: "29% OFF", image: "tennis grips.jpg", description: "Absorbent tennis grips for improved handling"
+            },
+            {
+                id: 29, name: "Adjustable Skipping Rope", category: "fitness", price: 400, originalPrice: 600,
+                discount: "33% OFF", image: "skipping rope.jpg", description: "High-speed skipping rope for cardio workouts"
+            },
+            {
+                id: 30, name: "Cricket Thigh Pad", category: "cricket", price: 1100, originalPrice: 1500,
+                discount: "27% OFF", image: "cricket thigh pad.jpg", description: "Comfortable and protective thigh pad for batsmen"
+            }
+        ];
+
+        let cart = [];
+        let filteredProducts = [...products];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts(products);
+            updateCartDisplay();
+        });
+
+        // Display products
+        function displayProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            productsToShow.forEach(product => {
+                const productCard = `
+                    <div class="col-lg-3 col-md-4 col-sm-6 product-item" data-category="${product.category}" data-price="${product.price}">
+                        <div class="card product-card position-relative">
+                            <div class="discount-badge">${product.discount}</div>
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${product.name}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text text-muted">${product.description}</p>
+                                <div class="price">
+                                    <span class="original-price">₹${product.originalPrice}</span>
+                                    <span>₹${product.price}</span>
+                                </div>
+                                <button class="btn btn-primary w-100 mt-3" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
+        }
+
+        // Filter products by search and price
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const priceRange = document.getElementById('priceFilter').value;
+            const activeCategoryBtn = document.querySelector('.category-btn.active');
+            const selectedCategory = activeCategoryBtn ? activeCategoryBtn.dataset.category : 'all';
+            
+            filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                    product.description.toLowerCase().includes(searchTerm);
+                
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '0-2000') {
+                        matchesPrice = product.price <= 2000;
+                    } else if (priceRange === '2000-5000') {
+                        matchesPrice = product.price > 2000 && product.price <= 5000;
+                    } else if (priceRange === '5000-10000') {
+                        matchesPrice = product.price > 5000 && product.price <= 10000;
+                    } else if (priceRange === '10000+') {
+                        matchesPrice = product.price > 10000;
+                    }
+                }
+
+                const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+                
+                return matchesSearch && matchesPrice && matchesCategory;
+            });
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            // Update active category button
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            // Find the button that was clicked (using event.target) or programmatically set if called internally
+            const clickedButton = Array.from(document.querySelectorAll('.category-btn')).find(btn => btn.textContent.toLowerCase().includes(category));
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            
+            if (category === 'all') {
+                displayProducts(products);
+            } else {
+                const categoryProducts = products.filter(product => product.category === category);
+                displayProducts(categoryProducts);
+            }
+            // Also apply other filters after category change
+            filterProducts();
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCartDisplay();
+            
+            // Show success message
+            showToast('Product added to cart!', 'success');
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Toggle cart modal
+        function toggleCart() {
+            const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+            updateCartModal();
+            cartModal.show();
+        }
+
+        // Update cart modal
+        function updateCartModal() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-muted">Your cart is empty</p>';
+                cartTotal.innerHTML = '';
+                return;
+            }
+            
+            let itemsHTML = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="row align-items-center mb-3 border-bottom pb-3">
+                        <div class="col-2 text-center">
+                            <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                        </div>
+                        <div class="col-6">
+                            <h6>${item.name}</h6>
+                            <small class="text-muted">₹${item.price} each</small>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                <button class="btn btn-outline-secondary" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                                <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
+                                <button class="btn btn-outline-secondary" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                            </div>
+                        </div>
+                        <div class="col-2 text-end">
+                            <strong>₹${itemTotal}</strong>
+                            <br>
+                            <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = itemsHTML;
+            cartTotal.innerHTML = `
+                <h5>Total: <span class="text-primary">₹${total}</span></h5>
+                <small class="text-muted">*Inclusive of all taxes</small>
+            `;
+        }
+
+        // Update quantity
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = newQuantity;
+                updateCartDisplay();
+                updateCartModal();
+            }
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+            updateCartModal();
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', 'error');
+                return;
+            }
+            
+            const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+            cartModal.hide();
+            
+            const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+            updateOrderSummary();
+            checkoutModal.show();
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            let total = 0;
+            let itemsHTML = '<h6>Order Summary</h6><div class="border rounded p-3 bg-light">';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                itemsHTML += `
+                    <div class="d-flex justify-content-between">
+                        <span>${item.name} (${item.quantity}x)</span>
+                        <span>₹${itemTotal}</span>
+                    </div>
+                `;
+            });
+            
+            const deliveryCharge = total > 1000 ? 0 : 50;
+            const finalTotal = total + deliveryCharge;
+            
+            itemsHTML += `
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Subtotal:</span>
+                    <span>₹${total}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Delivery:</span>
+                    <span>${deliveryCharge === 0 ? 'FREE' : '₹' + deliveryCharge}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <strong>Total: ₹${finalTotal}</strong>
+                </div>
+            </div>`;
+            
+            orderSummary.innerHTML = itemsHTML;
+        }
+
+        // Select payment method
+        function selectPayment(method) {
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.target.classList.add('selected');
+            
+            // Show/hide UPI section
+            const upiSection = document.getElementById('upiSection');
+            if (method === 'upi') {
+                upiSection.style.display = 'block';
+            } else {
+                upiSection.style.display = 'none';
+            }
+        }
+
+        // Set UPI ID
+        function setUPI(provider) {
+            const upiId = document.getElementById('upiId');
+            const phoneNumber = '1234567890'; // You can make this dynamic
+            
+            switch(provider) {
+                case 'paytm':
+                    upiId.value = `${phoneNumber}@paytm`;
+                    break;
+                case 'gpay':
+                    upiId.value = `${phoneNumber}@okaxis`;
+                    break;
+                case 'phonepe':
+                    upiId.value = `${phoneNumber}@ybl`;
+                    break;
+                case 'bhim':
+                    upiId.value = `${phoneNumber}@upi`;
+                    break;
+            }
+        }
+
+        // Place order
+        function placeOrder() {
+            const form = document.getElementById('checkoutForm');
+            const selectedPayment = document.querySelector('.payment-option.selected');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            if (!selectedPayment) {
+                showToast('Please select a payment method!', 'error');
+                return;
+            }
+            
+            // Simulate order processing
+            const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+            checkoutModal.hide();
+            
+            // Show loading
+            showToast('Processing your order...', 'info');
+            
+            setTimeout(() => {
+                const orderId = 'ORD' + Date.now();
+                showOrderSuccess(orderId);
+                cart = []; // Clear cart
+                updateCartDisplay();
+            }, 2000);
+        }
+
+        // Show order success
+        function showOrderSuccess(orderId) {
+            const successHTML = `
+                <div class="modal fade" id="successModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success text-white">
+                                <h5 class="modal-title"><i class="fas fa-check-circle"></i> Order Placed Successfully!</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <div class="mb-4">
+                                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                                </div>
+                                <h4>Thank you for your order!</h4>
+                                <p>Your order ID is: <strong>${orderId}</strong></p>
+                                <p>You will receive a confirmation email shortly.</p>
+                                <p>Expected delivery: 3-5 business days</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue Shopping</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', successHTML);
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            // Remove modal after hiding
+            document.getElementById('successModal').addEventListener('hidden.bs.modal', function() {
+                this.remove();
+            });
+        }
+
+        // Show toast notifications
+        function showToast(message, type) {
+            const toastHTML = `
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                    <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', toastHTML);
+            const toastElement = document.querySelector('.toast:last-child');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Remove toast after hiding
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                this.parentElement.remove();
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(255, 107, 53, 0.95)';
+            } else {
+                navbar.style.backgroundColor = '';
+            }
+        });
+
+        // Add loading animation for product images
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImages = document.querySelectorAll('.product-image');
+            productImages.forEach(img => {
+                img.style.animation = 'pulse 2s infinite';
+            });
+        });
+
+        // Add CSS animation for loading
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.7; }
+                100% { opacity: 1; }
+            }
+            
+            .toast-container {
+                z-index: 9999;
+            }
+            
+            .product-item {
+                animation: fadeInUp 0.6s ease-out;
+                animation-fill-mode: both;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translate3d(0, 40px, 0);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add staggered animation to products
+        function addStaggeredAnimation() {
+            const productItems = document.querySelectorAll('.product-item');
+            productItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Call staggered animation after products load
+        const originalDisplayProducts = displayProducts;
+        displayProducts = function(productsToShow) {
+            originalDisplayProducts(productsToShow);
+            setTimeout(addStaggeredAnimation, 100);
+        };
+    </script>
+</body>
+</html>
